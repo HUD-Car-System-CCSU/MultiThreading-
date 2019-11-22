@@ -39,16 +39,19 @@ lanes2enterhi.mp4
 lanetest2.mp4
 people test2-converted.mp4
 people test-converted.mp4
+fin.mp4
 """
-source = "fin.mp4"
+source = "lane1.mp4"
 # cv2.startWindowThread()
 v_pull = videopull.videopull(source).start()
 v_push = videopush.videopush(v_pull.frame).start()
 Vinfo = cv2.VideoCapture(source)
 tFrame = Vinfo.get(cv2.CAP_PROP_FRAME_COUNT)
 kFrame = Vinfo.get(cv2.CAP_PROP_FPS)
-
-
+print(kFrame)
+print(tFrame)
+totalframe=0
+fcounter = True
 # print(kFrame)
 # print(tFrame)
 # print(FCount)
@@ -95,6 +98,9 @@ def display_lines(img, _lines):
                 print(line)
 
     return _line_img
+
+
+
 
 
 while True:
@@ -146,6 +152,15 @@ while True:
 
     comb_img = cv2.addWeighted(frame, 1, line_img, .7, gamma=1)
     v_push.frame = comb_img
+    fcounter = not fcounter
+    #print(fcounter)
+   # if comb_img != []:
+        #totalframe=totalframe+1
+      #  print(comb_img)
+   # else:
+      #  print(totalframe)
+
+    #print(totalframe)
     # cv.imshow("test", cropped_img)
     # cv.imshow("cropped", cropped_img)
     # cv2.imshow("res2", comb_img)

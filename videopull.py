@@ -2,6 +2,8 @@ from threading import Thread
 import cv2
 import numpy as np
 import time
+import keyboard
+import sys
 
 now = time.time()
 future = now + 10
@@ -47,7 +49,10 @@ class videopull:
                 print(FPS)
                 print("++++++++++++++++++++++++++++++++++++")
                 ftest = ftest+1
-
+            if keyboard.is_pressed('f'):
+                FPS = q/(time.time()-now)
+                print(' New Average FPS')
+                print(FPS)
             # if 60<sTime:
 
             #    print(" FPS")

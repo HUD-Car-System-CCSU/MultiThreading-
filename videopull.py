@@ -29,7 +29,7 @@ class videopull:
     def get(self):
         q = 0
         ftest = 0
-        sTime = 0
+
 
         while True:
             ret, frame = self.cap.read()
@@ -38,11 +38,11 @@ class videopull:
                 video = cv2.VideoCapture(testvidfilename)
                 continue
 
-            time.sleep(.018)  # for reading from file
+            time.sleep(.030)#For reading from file assume (or check the files FPS) that the video is ~30fps so one frame per.030s """
             q += 1
-            sTime = time.clock()
 
-            # print(future)
+#================================FPS CALC=========================================
+
             if time.time() > future and ftest ==0:
                 print("++++++++++++++++++++++++++++++++++++")
                 FPS = q / 10
@@ -53,14 +53,9 @@ class videopull:
                 FPS = q/(time.time()-now)
                 print(' New Average FPS')
                 print(FPS)
-            # if 60<sTime:
+                print('Total frames played: ')
+                print(q)
 
-            #    print(" FPS")
-            # print(q/sTime)
-            #      print("     ")
-            # print(time.clock())
-
-            # print(q)
+#=================================================================================
 
             (self.grabbed, self.frame) = self.cap.read()
-            # print(q)

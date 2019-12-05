@@ -11,6 +11,7 @@ logging = "off"
 FCount = 0
 boxem = 0
 print(datetime.datetime.now())
+
 '''
 #set a max amount of threads-- python uses like 40-60 threads for some odd reason
 #but setting it to 10 uses little more than half (38) while having the same performance
@@ -52,7 +53,8 @@ people test2-converted.mp4
 people test-converted.mp4
 fin.mp4
 """
-source = "fin.mp4"
+#srcs = input("enter video name : ")
+source = 0 #srcs #"people test2-converted.mp4"
 # cv2.startWindowThread()
 v_pull = videopull.videopull(source).start()
 v_push = videopush.videopush(v_pull.frame).start()
@@ -66,11 +68,11 @@ fcounter = True
 print(kFrame)
 print(tFrame)
 # print(FCount)
-test = False
-testing = input("Testing (y/n): ")
-if testing == ('y' or 'Y'):
-    test = not test
-    print(datetime.datetime.now())
+test = True
+#testing = input("Testing (y/n): ")
+#if testing == ('y' or 'Y'):
+    #test = not test
+print(datetime.datetime.now())
 def canny(img, low_thresh, high_thresh, kernel=(5, 5), color_scale=cv2.COLOR_BGR2GRAY):
     # convert_scale = cv.cvtColor(img, color_scale)
     blur = cv2.GaussianBlur(img, kernel, 0)
@@ -85,11 +87,17 @@ def region_of_interest(img):
 
     vertices = np.array([
         [
-            (220, (img_height / 2) + 220),
-            (img_width - 180, (img_height / 2) + 220),
+            #(220, (img_height / 2) + 220),
+            #(img_width - 180, (img_height / 2) + 220),
 
-            (img_width - 180, img_height / 2 + 80 ),
-            (220, img_height / 2 + 80),
+            #(img_width - 180, img_height / 2 + 80 ),
+            #(220, img_height / 2 + 80),
+            #subaru settings
+            (520, (img_height / 2) + 0),
+            (img_width - 580, (img_height / 2) + 0),
+
+            (img_width - 580, img_height / 2 + 90),
+            (520, img_height / 2 + 90),
         ]
     ], dtype='int32')
 
@@ -150,12 +158,13 @@ while True:
 
     fcrop = region_of_interest(frame)
 
+    cv2.imshow("t", fcrop)
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
 
 
-    sens = 125
+    sens = 160#125
     low_white = np.array([0, 0, 255 - sens])  # color looking for
     high_white = np.array([255, sens, 255])
 

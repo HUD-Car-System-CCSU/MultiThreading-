@@ -4,9 +4,9 @@ import numpy as np
 import time
 import keyboard
 import sys
-
-now = time.time()
-future = now + 10
+settime=False
+#now = time.time()
+#future = now + 10
 cv2.setNumThreads(10)
 
 
@@ -29,16 +29,22 @@ class videopull:
     def get(self):
         q = 0
         ftest = 0
+        settime = False
 
 
         while True:
             ret, frame = self.cap.read()
 
+            if settime == False:
+                now = time.time()
+                future = now + 10
+                settime= True
+
             if not ret:
                 video = cv2.VideoCapture(testvidfilename)
                 continue
 
-            time.sleep(.030)#For reading from file assume (or check the files FPS) that the video is ~30fps so one frame per.030s """
+            #time.sleep(.040)#For reading from file assume (or check the files FPS) that the video is ~30fps so one frame per.030s """
             q += 1
 
 #================================FPS CALC=========================================

@@ -44,7 +44,7 @@ class videopull:
                 video = cv2.VideoCapture(testvidfilename)
                 continue
 
-            #time.sleep(.040)#For reading from file assume (or check the files FPS) that the video is ~30fps so one frame per.030s """
+            time.sleep(.040)#For reading from file assume (or check the files FPS) that the video is ~30fps so one frame per.030s """
             q += 1
 
 #================================FPS CALC=========================================

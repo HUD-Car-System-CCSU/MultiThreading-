@@ -54,7 +54,7 @@ people test-converted.mp4
 fin.mp4
 """
 #srcs = input("enter video name : ")
-source = 0 #srcs #"people test2-converted.mp4"
+source = "fin.mp4" #0 #srcs
 # cv2.startWindowThread()
 v_pull = videopull.videopull(source).start()
 v_push = videopush.videopush(v_pull.frame).start()
@@ -72,6 +72,7 @@ test = True
 #testing = input("Testing (y/n): ")
 #if testing == ('y' or 'Y'):
     #test = not test
+
 print(datetime.datetime.now())
 def canny(img, low_thresh, high_thresh, kernel=(5, 5), color_scale=cv2.COLOR_BGR2GRAY):
     # convert_scale = cv.cvtColor(img, color_scale)
@@ -87,17 +88,17 @@ def region_of_interest(img):
 
     vertices = np.array([
         [
-            #(220, (img_height / 2) + 220),
-            #(img_width - 180, (img_height / 2) + 220),
+            (220, (img_height / 2) + 220),
+            (img_width - 180, (img_height / 2) + 220),
 
-            #(img_width - 180, img_height / 2 + 80 ),
-            #(220, img_height / 2 + 80),
+            (img_width - 180, img_height / 2 + 80 ),
+            (220, img_height / 2 + 80),
             #subaru settings
-            (520, (img_height / 2) + 0),
-            (img_width - 580, (img_height / 2) + 0),
+            #(520, (img_height / 2) + 0),
+            #(img_width - 580, (img_height / 2) + 0),
 
-            (img_width - 580, img_height / 2 + 90),
-            (520, img_height / 2 + 90),
+            #(img_width - 580, img_height / 2 + 90),
+            #(520, img_height / 2 + 90),
         ]
     ], dtype='int32')
 
@@ -126,9 +127,10 @@ def display_lines(img, _lines):
 
 
 
-
+start = time.time()
 
 while True:
+
     skipper = 0
     key = cv2.waitKey(3)
     if key == 27:
@@ -158,7 +160,7 @@ while True:
 
     fcrop = region_of_interest(frame)
 
-    cv2.imshow("t", fcrop)
+    #cv2.imshow("t", fcrop)
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -177,9 +179,9 @@ while True:
     lines = cv2.HoughLinesP(cropped_img, 1, np.pi / 180, 100, maxLineGap=40)
     linear = []
     linear = lines
-
+    printers =FCount
     line_img = display_lines(frame, lines)
-
+    cv2.putText(frame, str(printers/(time.time()-start)), (105, 105), cv2.FONT_HERSHEY_COMPLEX_SMALL, .7, (0, 255, 0))
 
     comb_img = cv2.addWeighted(frame, 1, line_img, .7, gamma=1)
     v_push.frame = comb_img
@@ -187,6 +189,6 @@ while True:
 
     #print(totalframe)
     # cv.imshow("test", cropped_img)
-    cv2.imshow("cropped", cropped_img)
+#    cv2.imshow("cropped", cropped_img)
     # cv2.imshow("res2", comb_img)
 logData.close()

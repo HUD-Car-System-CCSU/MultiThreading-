@@ -56,19 +56,19 @@ fin.mp4
 #srcs = input("enter video name : ")
 source = "fin.mp4" #0 #srcs
 # cv2.startWindowThread()
-v_pull = videopull.videopull(source).start()
-v_push = videopush.videopush(v_pull.frame).start()
-Vinfo = cv2.VideoCapture(source)
-tFrame = Vinfo.get(cv2.CAP_PROP_FRAME_COUNT)
-kFrame = Vinfo.get(cv2.CAP_PROP_FPS)
+v_pull = videopull.videopull(source).start()                    #start & pass src to vidpull
+v_push = videopush.videopush(v_pull.frame).start()              #start video push
+Vinfo = cv2.VideoCapture(source)                                #test purpose video data
+tFrame = Vinfo.get(cv2.CAP_PROP_FRAME_COUNT)                    #test purpose video data
+kFrame = Vinfo.get(cv2.CAP_PROP_FPS)                            #test purpose video data
 #print(kFrame)
 #print(tFrame)
-totalframe=0
-fcounter = True
-print(kFrame)
-print(tFrame)
+totalframe=0                                                    #test purpose video data
+fcounter = True                                                 #test purpose video data
+print(kFrame)                                                   #test purpose video data
+print(tFrame)                                                   #test purpose video data
 # print(FCount)
-test = True
+test = True                                                     #test purpose video data
 #testing = input("Testing (y/n): ")
 #if testing == ('y' or 'Y'):
     #test = not test
@@ -82,7 +82,7 @@ def canny(img, low_thresh, high_thresh, kernel=(5, 5), color_scale=cv2.COLOR_BGR
     return r_canny_img
 
 
-def region_of_interest(img):
+def region_of_interest(img):                                                                #define an area to scan for lanes
     img_width = img.shape[1]
     img_height = img.shape[0]
 
@@ -128,7 +128,8 @@ def display_lines(img, _lines):
 
 
 start = time.time()
-
+current = time.time()
+printers=0
 while True:
 
     skipper = 0
@@ -179,10 +180,16 @@ while True:
     lines = cv2.HoughLinesP(cropped_img, 1, np.pi / 180, 100, maxLineGap=40)
     linear = []
     linear = lines
-    printers =FCount
-    line_img = display_lines(frame, lines)
-    cv2.putText(frame, str(printers/(time.time()-start)), (105, 105), cv2.FONT_HERSHEY_COMPLEX_SMALL, .7, (0, 255, 0))
 
+    line_img = display_lines(frame, lines)
+    if(time.time()>= current+.5):
+        printers = FCount/.5
+        FCount=0
+        #print(str(printers)+"  "+str(time.time()-start))
+
+        #cv2.putText(frame, str(printers), (105, 105), cv2.FONT_HERSHEY_COMPLEX_SMALL, .7, (0, 255, 0))
+        current = time.time()
+    cv2.putText(frame, str(printers)+" FPS", (105, 445), cv2.FONT_HERSHEY_COMPLEX_SMALL, .97, (0, 255, 0))
     comb_img = cv2.addWeighted(frame, 1, line_img, .7, gamma=1)
     v_push.frame = comb_img
 
